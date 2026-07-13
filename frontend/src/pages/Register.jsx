@@ -26,7 +26,7 @@ export default function Register() {
     setSubmitting(true);
     try {
       await register(formData.name, formData.email, formData.password);
-      navigate('/products');
+      navigate('/');
     } catch (err) {
       setError(err.response?.data?.message || 'Error al registrar el usuario');
     } finally {

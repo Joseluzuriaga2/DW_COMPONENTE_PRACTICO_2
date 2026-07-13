@@ -170,8 +170,16 @@ body {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 8px;
+}
+
 .product-table {
   width: 100%;
+  min-width: 600px;
   border-collapse: collapse;
   background: #fff;
   border-radius: 8px;
@@ -202,4 +210,224 @@ body {
 .page-loading {
   text-align: center;
   margin-top: 3rem;
+}
+
+.dashboard-header {
+  margin-bottom: 1.5rem;
+}
+
+.dashboard-header h1 {
+  margin-bottom: 0.25rem;
+}
+
+.dashboard-subtitle {
+  margin: 0;
+  color: #6b7280;
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: #fff;
+  padding: 1.25rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border-left: 4px solid #2563eb;
+}
+
+.stat-card-alert {
+  border-left-color: #dc2626;
+}
+
+.stat-card-icon {
+  display: inline-flex;
+  color: #2563eb;
+}
+
+.stat-card-alert .stat-card-icon {
+  color: #dc2626;
+}
+
+.section-title-alert {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #b45309;
+}
+
+.stat-card-value {
+  margin: 0.5rem 0 0.25rem;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1e3a8a;
+}
+
+.stat-card-alert .stat-card-value {
+  color: #dc2626;
+}
+
+.stat-card-label {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.dashboard-section {
+  margin-bottom: 2rem;
+}
+
+.dashboard-section h2 {
+  font-size: 1.15rem;
+  margin-bottom: 0.75rem;
+}
+
+.dashboard-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.dashboard-section-header h2 {
+  margin: 0;
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+/* Tablets y pantallas medianas */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 1rem;
+  }
+
+  .navbar-links {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .products-header,
+  .dashboard-section-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .products-header .btn-primary,
+  .dashboard-section-header .btn-primary {
+    width: 100%;
+  }
+
+  /* Los tres campos numéricos dejan de competir por el ancho */
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .stat-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Teléfonos */
+@media (max-width: 600px) {
+  .auth-form {
+    margin: 1.5rem auto;
+    padding: 1.5rem;
+  }
+
+  .dashboard-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .stat-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .search-bar {
+    flex-direction: column;
+  }
+
+  .search-bar .btn-secondary {
+    width: 100%;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .form-actions button {
+    width: 100%;
+  }
+
+  /* La tabla se reconstruye como tarjetas apiladas: cada fila es una tarjeta
+     y cada celda muestra su encabezado desde el atributo data-label. */
+  .table-wrapper {
+    overflow-x: visible;
+  }
+
+  .product-table {
+    min-width: 0;
+    background: transparent;
+  }
+
+  .product-table thead {
+    display: none;
+  }
+
+  .product-table tr {
+    display: block;
+    background: #fff;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    padding: 0.5rem 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  }
+
+  /* La alerta de stock bajo debe seguir viéndose también como tarjeta */
+  .product-table tr.row-low-stock {
+    background-color: #fef3c7;
+  }
+
+  .product-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem 1rem;
+    border-bottom: none;
+    text-align: right;
+  }
+
+  .product-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #6b7280;
+    text-align: left;
+  }
+
+  .product-table td.table-actions {
+    justify-content: flex-end;
+    padding-top: 0.75rem;
+    border-top: 1px solid #e5e7eb;
+    margin-top: 0.5rem;
+  }
+
+  .product-table td.table-actions::before {
+    display: none;
+  }
+
+  .product-table td.table-actions button {
+    flex: 1;
+  }
 }

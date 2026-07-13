@@ -4,6 +4,14 @@ Aplicación web full-stack (MERN + JWT) para la gestión de un inventario de pro
 Proyecto académico que cumple con los requisitos de autenticación, CRUD completo,
 base de datos MongoDB, backend en Node/Express, frontend en React y pruebas con Postman.
 
+## Enlaces del proyecto
+
+| Recurso | Enlace |
+|---|---|
+| Repositorio GitHub | https://github.com/Joseluzuriaga2/DW_COMPONENTE_PRACTICO_2 |
+| Prototipo en Figma | [COMPONENTE_2](https://www.figma.com/design/RFUmBaAMarJIdKrEU5BOdW/COMPONENTE_2?node-id=0-1&t=mGolZYMu7tEW2POI-1) |
+| Colección de Postman | [`postman/Inventory_System.postman_collection.json`](postman/Inventory_System.postman_collection.json) |
+
 ## 1. Análisis del problema
 
 **Necesidad:** una pequeña empresa necesita controlar el stock de sus productos
@@ -32,14 +40,28 @@ inventory-system/
 │   ├── src/
 │   │   ├── api/axios.js          # Cliente HTTP con interceptores JWT
 │   │   ├── context/AuthContext.jsx  # Estado global de autenticación
-│   │   ├── components/           # Navbar, PrivateRoute, ProductForm, ProductTable
+│   │   ├── components/           # Navbar, PrivateRoute, ProductForm,
+│   │   │                         # ProductTable, StatCard, Icon
 │   │   ├── pages/                # Login, Register, Dashboard, Products
+│   │   ├── styles/app.css        # Estilos globales + diseño responsive
 │   │   └── App.jsx / main.jsx
 │   ├── package.json
 │   └── .env.example
 └── postman/
     └── Inventory_System.postman_collection.json
 ```
+
+### Pantallas
+
+| Pantalla | Ruta | Acceso | Descripción |
+|---|---|---|---|
+| Login | `/login` | Público | Inicio de sesión. Al autenticarse redirige al Dashboard. |
+| Registro | `/register` | Público | Alta de nuevos usuarios. |
+| Dashboard | `/` | Privado | Resumen del inventario: total de productos, unidades en stock, valor total, alerta de productos con stock bajo y últimos productos agregados. |
+| Productos | `/products` | Privado | CRUD completo: listado, búsqueda, crear, editar y eliminar. |
+
+La interfaz es **responsive**: en pantallas pequeñas el menú se apila, los formularios
+pasan a una sola columna y las tablas se reorganizan como tarjetas legibles en móvil.
 
 ### Modelo de datos (MongoDB)
 
@@ -74,25 +96,53 @@ inventory-system/
 
 ### Requisitos previos
 - Node.js 18+
-- MongoDB una URI de MongoDB Atlas
+- MongoDB en local (`mongodb://127.0.0.1:27017`) o una URI de MongoDB Atlas
 
 ### Backend
 
 ```bash
 cd backend
-cp .env     # editar JWT_SECRET y MONGO_URI si es necesario
+cp .env.example .env      # editar MONGO_URI y JWT_SECRET si es necesario
 npm install
 npm run dev               # http://localhost:5000
+```
+
+Al arrancar correctamente debe mostrar:
+
+```
+Servidor corriendo en http://localhost:5000
+MongoDB conectado: 127.0.0.1
 ```
 
 ### Frontend
 
 ```bash
 cd frontend
-cp .env
+cp .env.example .env
 npm install
 npm run dev               # http://localhost:5173
 ```
+
+> **Nota:** el frontend debe correr en el puerto `5173`, que es el que el backend
+> autoriza por CORS a través de la variable `CLIENT_URL`.
+
+### Variables de entorno
+
+**`backend/.env`**
+
+| Variable | Descripción | Valor por defecto |
+|---|---|---|
+| `PORT` | Puerto del servidor Express | `5000` |
+| `MONGO_URI` | Cadena de conexión a MongoDB | `mongodb://127.0.0.1:27017/inventory_system` |
+| `JWT_SECRET` | Clave para firmar los tokens JWT | — (obligatoria) |
+| `JWT_EXPIRES_IN` | Tiempo de expiración del token | `1d` |
+| `CLIENT_URL` | Origen permitido por CORS | `http://localhost:5173` |
+
+**`frontend/.env`**
+
+| Variable | Descripción | Valor por defecto |
+|---|---|---|
+| `VITE_API_URL` | URL base de la API REST | `http://localhost:5000/api` |
 
 ### Postman
 

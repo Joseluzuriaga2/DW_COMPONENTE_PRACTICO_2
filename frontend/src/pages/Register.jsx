@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { validateName, validateEmail, validatePassword } from '../utils/validators';
 
 export default function Register() {
   const [formData, setFormData] = useState({ name: '', email: '', password: '' });
+  const [errors, setErrors] = useState({});
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const { register } = useAuth();
@@ -14,19 +16,33 @@ export default function Register() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const validate = () => {
+    const newErrors = {};
+
+    const nameError = validateName(formData.name);
+    if (nameError) newErrors.name = nameError;
+
+    const emailError = validateEmail(formData.email);
+    if (emailError) newErrors.email = emailError;
+
+    const passwordError = validatePassword(formData.password);
+    if (passwordError) newErrors.password = passwordError;
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
-    if (formData.password.length < 6) {
-      setError('La contraseña debe tener al menos 6 caracteres');
-      return;
-    }
+    // Si los datos no son válidos, no se envía la petición al servidor
+    if (!validate()) return;
 
     setSubmitting(true);
     try {
       await register(formData.name, formData.email, formData.password);
-      navigate('/products');
+      navigate('/');
     } catch (err) {
       setError(err.response?.data?.message || 'Error al registrar el usuario');
     } finally {
@@ -42,7 +58,8 @@ export default function Register() {
 
         <div className="form-group">
           <label htmlFor="name">Nombre completo</label>
-          <input id="name" name="name" value={formData.name} onChange={handleChange} required />
+          <input id="name" name="name" value={formData.name} onChange={handleChange} />
+          {errors.name && <span className="field-error">{errors.name}</span>}
         </div>
 
         <div className="form-group">
@@ -53,8 +70,8 @@ export default function Register() {
             type="email"
             value={formData.email}
             onChange={handleChange}
-            required
           />
+          {errors.email && <span className="field-error">{errors.email}</span>}
         </div>
 
         <div className="form-group">
@@ -65,8 +82,8 @@ export default function Register() {
             type="password"
             value={formData.password}
             onChange={handleChange}
-            required
           />
+          {errors.password && <span className="field-error">{errors.password}</span>}
         </div>
 
         <button type="submit" className="btn-primary" disabled={submitting}>

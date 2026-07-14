@@ -7,38 +7,40 @@ export default function ProductTable({ products, onEdit, onDelete }) {
   }
 
   return (
-    <table className="product-table">
-      <thead>
-        <tr>
-          <th>Nombre</th>
-          <th>SKU</th>
-          <th>Categoría</th>
-          <th>Precio</th>
-          <th>Cantidad</th>
-          <th>Estado</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        {products.map((product) => (
-          <tr key={product._id} className={product.lowStock ? 'row-low-stock' : ''}>
-            <td>{product.name}</td>
-            <td>{product.sku}</td>
-            <td>{product.category}</td>
-            <td>${Number(product.price).toFixed(2)}</td>
-            <td>{product.quantity}</td>
-            <td>{product.lowStock ? 'Stock bajo' : 'Normal'}</td>
-            <td className="table-actions">
-              <button type="button" className="btn-edit" onClick={() => onEdit(product)}>
-                Editar
-              </button>
-              <button type="button" className="btn-delete" onClick={() => onDelete(product._id)}>
-                Eliminar
-              </button>
-            </td>
+    <div className="table-wrapper">
+      <table className="product-table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>SKU</th>
+            <th>Categoría</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Estado</th>
+            <th>Acciones</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {products.map((product) => (
+            <tr key={product._id} className={product.lowStock ? 'row-low-stock' : ''}>
+              <td data-label="Nombre">{product.name}</td>
+              <td data-label="SKU">{product.sku}</td>
+              <td data-label="Categoría">{product.category}</td>
+              <td data-label="Precio">${Number(product.price).toFixed(2)}</td>
+              <td data-label="Cantidad">{product.quantity}</td>
+              <td data-label="Estado">{product.lowStock ? 'Stock bajo' : 'Normal'}</td>
+              <td className="table-actions" data-label="Acciones">
+                <button type="button" className="btn-edit" onClick={() => onEdit(product)}>
+                  Editar
+                </button>
+                <button type="button" className="btn-delete" onClick={() => onDelete(product._id)}>
+                  Eliminar
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }

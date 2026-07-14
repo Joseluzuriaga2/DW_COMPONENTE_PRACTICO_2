@@ -106,11 +106,12 @@ export default function Products() {
         </div>
       )}
 
-      {loading ? (
-        <p>Cargando productos...</p>
-      ) : (
-        <ProductTable products={products} onEdit={handleEdit} onDelete={handleDelete} />
-      )}
+      {!showForm &&
+        (loading ? (
+          <p>Cargando productos...</p>
+        ) : (
+          <ProductTable products={products} onEdit={handleEdit} onDelete={handleDelete} />
+        ))}
     </div>
   );
 }
